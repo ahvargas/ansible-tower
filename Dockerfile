@@ -2,12 +2,13 @@
 
 FROM ubuntu:14.04
 
-MAINTAINER ybaltouski@gmail.com
+MAINTAINER ahvargas@gmail.com
 
-ENV ANSIBLE_TOWER_VER 2.4.1
+ENV ANSIBLE_TOWER_VER 3.0.3
 ENV PG_DATA /var/lib/postgresql/9.4/main
 
-RUN apt-get install -y software-properties-common \
+RUN apt-get update \
+    && apt-get install -y software-properties-common \
     && apt-add-repository ppa:ansible/ansible \
     && apt-get update \
     && apt-get install -y ansible
@@ -18,6 +19,7 @@ RUN cd /opt && tar -xvf ansible-tower-setup-${ANSIBLE_TOWER_VER}.tar.gz \
     && rm -rf ansible-tower-setup-${ANSIBLE_TOWER_VER}.tar.gz \
     && mv ansible-tower-setup-${ANSIBLE_TOWER_VER} /opt/tower-setup
 
+ENV USER root
 
 ADD tower_setup_conf.yml /opt/tower-setup/tower_setup_conf.yml
 ADD inventory /opt/tower-setup/inventory
